@@ -61,3 +61,8 @@ pump$simulate("theta")
 pump$calculate(pump$getDependencies(c("theta")))
 # pump$lambda # shows the new lambda values
 # pump$logProb_x # shows the new log probabilities of the likelihood
+
+# ----- 2.3 Compiling the model -----
+Cpump <- compileNimble(pump) # complies in C++
+# Cpump$theta
+# the compiled model needs to be used before any compilation of algorithms
