@@ -101,3 +101,14 @@ CpumpNewMCMC <- compileNimble(pumpMCMC2, project = pump,
 set.seed(1)
 CpumpNewMCMC$run(niter)
 # samples <- as.matrix(CpumpNewMCMC$mvSamples)
+
+# ----- 2.7 Running MCEM -----
+# # Maximise the maginal likelihood for alpha and beta
+# pump2 <- pump$newModel()
+
+# box = list(list(c("alpha","beta"), c(0, Inf)))
+
+# pumpMCEM <- buildMCMC(model = pump2, latentNodes = "theta[1:10]",
+#                       boxConstraints = box)
+# pumpMLE <- pumpMCEM$run()
+# # pumpMLE # return very accurate values of alpha and beta
