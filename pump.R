@@ -77,6 +77,13 @@ mcmc.out <- nimbleMCMC(code = pumpCode, constants = pumpConsts,
 
 # names(mcmc.out) # output, each called by mcmc.out$name
 
+# Also possible to compile the model in C++ for speed
+mcmc.out_c<- nimbleMCMC(model=Cpump,
+                       monitors=c("alpha","beta","theta","lambda"),
+                       nchains = 2, niter = 10000,
+                       summary = TRUE, WAIC = TRUE)
+# mcmc.out_c$summary
+
 # --- 2.5 Creating, compiling and running a basic MCMC configuration ---
 pumpConf <- configureMCMC(pump, print = TRUE) # create an MCMC configuration
 pumpConf$addMonitors(c("alpha", "beta", "theta"))
