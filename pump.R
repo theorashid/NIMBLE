@@ -87,3 +87,17 @@ CpumpMCMC <- compileNimble(pumpMCMC, project = pump) # compile into C++
 niter <- 1000
 set.seed(1)
 samples <- runMCMC(CpumpMCMC, niter = niter) # run the MCMC sampler
+
+# ----- 2.6 Customizing the MCMC -----
+# Add an adaptive block sampler on alpha and beta jointly
+pumpConf$addSampler(target = c("alpha","beta"), type = "RW_block",
+                    control = list(adaptInterval = 100))
+
+pumpMCMC2 <- buildMCMC(pumpConf)
+# compile into C++ (need to reset nimbleFunctions to add new MCMC)
+CpumpNewMCMC <- compileNimble(pumpMCMC2, project = pump,
+                              resetFunctions = TRUE)
+
+set.seed(1)
+CpumpNewMCMC$run(niter)
+# samples <- as.matrix(CpumpNewMCMC$mvSamples)
