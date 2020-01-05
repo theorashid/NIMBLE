@@ -89,7 +89,8 @@ pumpConf <- configureMCMC(pump, print = TRUE) # create an MCMC configuration
 pumpConf$addMonitors(c("alpha", "beta", "theta"))
 
 pumpMCMC <- buildMCMC(pumpConf)
-CpumpMCMC <- compileNimble(pumpMCMC, project = pump) # compile into C++
+CpumpMCMC <- compileNimble(pumpMCMC, project = pump,
+                           resetFunctions = TRUE) # compile into C++
 
 niter <- 1000
 set.seed(1)
@@ -111,14 +112,14 @@ CpumpNewMCMC$run(niter)
 
 # ----- 2.7 Running MCEM -----
 # # Maximise the maginal likelihood for alpha and beta
-# pump2 <- pump$newModel()
+pump2 <- pump$newModel()
 
-# box = list(list(c("alpha","beta"), c(0, Inf)))
+box = list(list(c("alpha","beta"), c(0, Inf)))
 
-# pumpMCEM <- buildMCMC(model = pump2, latentNodes = "theta[1:10]",
-#                       boxConstraints = box)
-# pumpMLE <- pumpMCEM$run()
-# # pumpMLE # return very accurate values of alpha and beta
+pumpMCEM <- buildMCEM(model = pump2, latentNodes = "theta[1:10]",
+                      boxConstraints = box)
+pumpMLE <- pumpMCEM$run()
+# pumpMLE # return very accurate values of alpha and beta
 
 # ----- 2.8 Creating your own functions -----
 # Simulating multiple values for a designated set of nodes and 
