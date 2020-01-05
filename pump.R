@@ -112,3 +112,28 @@ CpumpNewMCMC$run(niter)
 #                       boxConstraints = box)
 # pumpMLE <- pumpMCEM$run()
 # # pumpMLE # return very accurate values of alpha and beta
+
+# ----- 2.8 Creating your own functions -----
+# Simulating multiple values for a designated set of nodes and 
+# calculating every part of the model that depends on them
+
+# setup function in R -- relevant information specific to model
+# run function in NIMBLE
+simNodesMany <- nimbleFunction(
+    setup = function(model, nodes) {
+        mv <- modelValues(model)
+        deps <- model$getDependencies(nodes)
+        allNodes <- model$getNodeNames()
+    },
+    run = function(n = integer()) {
+        resize(mv, n) 
+        for(i in 1:n) {
+            model$simulate(nodes) 
+            model$calculate(deps)
+            copy(from = model, nodes = allNodes,
+                 to = mv, rowTo = i, logProb = TRUE)
+        } 
+    })
+
+simNodesTheta1to5 <- simNodesMany(pump, "theta[1:5]")
+simNodesTheta6to10 <- simNodesMany(pump, "theta[6:10]")
