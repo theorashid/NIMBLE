@@ -66,3 +66,13 @@ pump$calculate(pump$getDependencies(c("theta")))
 Cpump <- compileNimble(pump) # complies in C++
 # Cpump$theta
 # the compiled model needs to be used before any compilation of algorithms
+
+# ----- 2.4 One-line invocation of MCMC -----
+# default NIMBLE MCMC algorithm is used to generate posterior samples
+mcmc.out <- nimbleMCMC(code = pumpCode, constants = pumpConsts,
+                       data = pumpData, inits = pumpInits,
+                       monitors=c("alpha","beta","theta","lambda"),
+                       nchains = 2, niter = 10000,
+                       summary = TRUE, WAIC = TRUE)
+
+# names(mcmc.out) # output, each called by mcmc.out$name
