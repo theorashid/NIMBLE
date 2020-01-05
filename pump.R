@@ -76,3 +76,14 @@ mcmc.out <- nimbleMCMC(code = pumpCode, constants = pumpConsts,
                        summary = TRUE, WAIC = TRUE)
 
 # names(mcmc.out) # output, each called by mcmc.out$name
+
+# --- 2.5 Creating, compiling and running a basic MCMC configuration ---
+pumpConf <- configureMCMC(pump, print = TRUE) # create an MCMC configuration
+pumpConf$addMonitors(c("alpha", "beta", "theta"))
+
+pumpMCMC <- buildMCMC(pumpConf)
+CpumpMCMC <- compileNimble(pumpMCMC, project = pump) # compile into C++
+
+niter <- 1000
+set.seed(1)
+samples <- runMCMC(CpumpMCMC, niter = niter) # run the MCMC sampler
