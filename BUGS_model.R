@@ -6,7 +6,7 @@
 library(nimble)
 library(igraph)
 
-# ----- Dyes Examples -----
+# ----- Dyes Example -----
 # Normal hierarchical model
 dyesCode <- nimbleCode({
 # Model
