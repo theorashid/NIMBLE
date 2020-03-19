@@ -76,7 +76,7 @@ conf <- configureMCMC(model, monitors = c('beta', 'sigma', 's'))
 MCMC <- buildMCMC(conf)
 cMCMC <- compileNimble(MCMC, project = cModel)
 
-samples <- runMCMC(cMCMC, niter = 10000, nburnin = 1000)
+mcmc.out <- runMCMC(cMCMC, niter = 10000, nburnin = 1000, summary = TRUE, samples = TRUE)
 
 # Density plots of posterior samples
 # plot(density(samples[,"sigma"]))
