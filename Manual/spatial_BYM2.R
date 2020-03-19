@@ -38,7 +38,7 @@ diag(Q) = -rowSums(Q)
 n = dim(Q)[1]
 Q.scaled = inla.scale.model(Q, constr = list(A = matrix(1, 1, n), e=0))
 
-scale = Q.scaled[1,1]/Q[1,1] # scale is 0.3783966
+scale = Q.scaled[1,1]/Q[1,1] # scale is 0.4340388
 
 # ----- Build the model -----
 # For the CAR model, we need to specify:
